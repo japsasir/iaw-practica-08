@@ -18,8 +18,6 @@ apt upgrade -y
 # Instalamos Apache
 apt install apache2 -y
 
-
-
 ## Configuración MySQL ##
 # Instalamos el sistema gestor de base de datos
 apt install mysql-server -y
