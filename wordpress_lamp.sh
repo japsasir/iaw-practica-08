@@ -1,28 +1,38 @@
 #!/bin/bash
+
 ###-------------------------------------------------------###
 ### Script para montar un servidor con Wordpress y MySQL  ###
 ###-------------------------------------------------------###
+
 ## Declaración de variables
 # Definimos la contraseña de root como variable
 DB_ROOT_PASSWD=root
 DB_USU_PASSWD=usuario
+
 # ------------------------------------------------------------------------------ Instalación y configuración de Apache, MySQL y PHP------------------------------------------------------------------------------ 
 
 # Habilitamos el modo de shell para mostrar los comandos que se ejecutan
 set -x
 # Actualizamos y actualizamos la lista de paquetes
 apt update  
-apt upgrade -y
+## apt upgrade -y   #Comentado por agilizar la entrega
 
-## Configuración Apache ##
 # Instalamos Apache
 apt install apache2 -y
 
-## Configuración de PHP ##
-# Aquí va la configuración editada  (Debconf-set-selections)
-apt install phpmyadmin php-mbstring php-zip php-gd php-json php-curl -y
+# Instalamos el sistema gestor de base de datos
+apt install mysql-server -y
 
-## Configuración de WordPress ##
+# Instalamos php y la familia de módulos
+apt install php libapache2-mod-php php-mysql -y
+
+# Reiniciamos el servicio Apache 
+systemctl restart apache2
+
+# Copiamos el archivo info.php al directorio html 
+### cp info.php /var/www/html/info.php
+
+# ------------------------------------------------------------------------------ Instalación y configuración de Wordpress------------------------------------------------------------------------------ 
 ## Fase 1: Descarga y extracción ##
 # Directorio raíz de nuestro apache
 cd /var/www/html
@@ -37,8 +47,7 @@ rm latest.tar.gz
 
 ## Fase 2: Crear base de datos y un usuario##
 ## Configuración MySQL ##
-# Instalamos el sistema gestor de base de datos
-apt install mysql-server -y
+
 # Editamos el archivo de configuración de MySQL, modificando la línea (Loop/cualquiera) Es necesario que acepte conexiones de cualquier origen para que cumpla con el enunciado de la práctica.
 sed -i "s/127.0.0.1/0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf 
 #git clone https://github.com/josejuansanchez/iaw-practica-lamp
