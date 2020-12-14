@@ -4,10 +4,19 @@
 ### Script para montar un servidor con Wordpress y MySQL  ###
 ###-------------------------------------------------------###
 
-## Declaración de variables
-# Definimos la contraseña de root como variable
+## Variables
+
+# Contraseña aleatoria para el parámetro blowfish_secret
+BLOWFISH=`tr -dc A-Za-z0-9 < /dev/urandom | head -c 64`
+# DIR
+HTTPASSWD_DIR=/home/ubuntu
+HTTPASSWD_USER=usuario
+HTTPASSWD_PASSWD=usuario
+# MySQL
 DB_ROOT_PASSWD=root
-DB_USU_PASSWD=usuario
+DB_NAME=wordpress_db
+DB_USER=wordpress_user
+DB_PASSWORD=wordpress_password
 
 # ------------------------------------------------------------------------------ Instalación y configuración de Apache, MySQL y PHP------------------------------------------------------------------------------ 
 
@@ -30,7 +39,7 @@ apt install php libapache2-mod-php php-mysql -y
 systemctl restart apache2
 
 # Copiamos el archivo info.php al directorio html 
-### cp info.php /var/www/html/info.php
+cp $HTTPASSWD_DIR/iaw_practica08/info.php /var/www/html/info.php
 
 # ------------------------------------------------------------------------------ Instalación y configuración de Wordpress------------------------------------------------------------------------------ 
 ## Fase 1: Descarga y extracción ##
@@ -77,16 +86,3 @@ sudo /etc/init.d/mysql restart
 
 
 #https://codex.wordpress.org/es:Instalando_Wordpress
-
-
-
-
-
-
-## Configuración de WordPress ##
-
-## NO EN USO 
-# Clonamos el repositorio
-#cd /home/ubuntu
-#rm -rf iaw-practica-lamp 
-
