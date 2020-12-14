@@ -43,6 +43,15 @@ tar -xzvf latest.tar.gz
 # Limpiamos el archivo comprimido residual.
 rm latest.tar.gz
 
+
+
+
+
+
+
+
+
+
 ## Configuración de WordPress ##
 
 ## NO EN USO 
