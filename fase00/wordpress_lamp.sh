@@ -45,7 +45,8 @@ sed -i "s/127.0.0.1/0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf
 sudo /etc/init.d/mysql restart
 
 ## Fase 3:Configurar el archivo wp-config.php##
-#Valores similares a los usados hasta ahora. Crear un archivo a mano para copiarlo.
+#Valores similares a los usados hasta ahora. Crear un archivo a mano para copiarlo. La linea de abajo es para usar el archivo por defecto como archivo de config.
+# mv wp-config-sample.php wp-config.php
 
 ## Fase 4: Coloca los archivos##
 
