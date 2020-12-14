@@ -18,20 +18,12 @@ apt upgrade -y
 # Instalamos Apache
 apt install apache2 -y
 
-## Configuración MySQL ##
-# Instalamos el sistema gestor de base de datos
-apt install mysql-server -y
-# Editamos el archivo de configuración de MySQL, modificando la línea (Loop/cualquiera) Es necesario que acepte conexiones de cualquier origen para que cumpla con el enunciado de la práctica.
-sed -i "s/127.0.0.1/0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf 
-# Reiniciamos el servicio
-sudo /etc/init.d/mysql restart
-
-
 ## Configuración de PHP ##
 # Aquí va la configuración editada  (Debconf-set-selections)
 apt install phpmyadmin php-mbstring php-zip php-gd php-json php-curl -y
 
 ## Configuración de WordPress ##
+## Fase 1: Descarga y extracción ##
 # Directorio raíz de nuestro apache
 cd /var/www/html
 # Descargamos Wordpress 
@@ -43,9 +35,25 @@ tar -xzvf latest.tar.gz
 # Limpiamos el archivo comprimido residual.
 rm latest.tar.gz
 
+## Fase 2: Crear base de datos y un usuario##
+## Configuración MySQL ##
+# Instalamos el sistema gestor de base de datos
+apt install mysql-server -y
+# Editamos el archivo de configuración de MySQL, modificando la línea (Loop/cualquiera) Es necesario que acepte conexiones de cualquier origen para que cumpla con el enunciado de la práctica.
+sed -i "s/127.0.0.1/0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf 
+# Reiniciamos el servicio
+sudo /etc/init.d/mysql restart
+
+## Fase 3:Configurar el archivo wp-config.php##
+#Valores similares a los usados hasta ahora. Crear un archivo a mano para copiarlo.
+
+## Fase 4: Coloca los archivos##
+
+## Fase 5: Ejecuta la instalación##
 
 
 
+#https://codex.wordpress.org/es:Instalando_Wordpress
 
 
 
