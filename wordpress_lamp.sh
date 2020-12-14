@@ -32,14 +32,23 @@ apt install apache2 -y
 # Instalamos el sistema gestor de base de datos
 apt install mysql-server -y
 
-# Instalamos php y la familia de módulos
+# Instalamos los módulos PHP necesarios para Apache
 apt install php libapache2-mod-php php-mysql -y
 
 # Reiniciamos el servicio Apache 
 systemctl restart apache2
 
-# Copiamos el archivo info.php al directorio html 
+# Copiamos el archivo info.php adjuntoal directorio html
 cp $HTTPASSWD_DIR/iaw_practica08/info.php /var/www/html/info.php
+
+# Configuramos las opciones de instalación de phpMyAdmin #!!examinar
+#echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | debconf-set-selections
+#echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | debconf-set-selections
+#echo "phpmyadmin phpmyadmin/mysql/app-pass password $PHPMYADMIN_PASSWD" |debconf-set-selections
+#echo "phpmyadmin phpmyadmin/app-password-confirm password $PHPMYADMIN_PASSWD" | debconf-set-selections
+
+# Instalamos phpMyAdmin #
+apt install phpmyadmin php-mbstring php-zip php-gd php-json php-curl -y
 
 # ------------------------------------------------------------------------------ Instalación y configuración de Wordpress------------------------------------------------------------------------------ 
 ## Fase 1: Descarga y extracción ##
