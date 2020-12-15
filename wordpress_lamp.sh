@@ -8,7 +8,7 @@
 
 # Contraseña aleatoria para el parámetro blowfish_secret
 BLOWFISH=`tr -dc A-Za-z0-9 < /dev/urandom | head -c 64`
-# DIR
+# Directorio de usuario
 HTTPASSWD_DIR=/home/ubuntu
 HTTPASSWD_USER=usuario
 HTTPASSWD_PASSWD=usuario
@@ -38,14 +38,14 @@ apt install php libapache2-mod-php php-mysql -y
 # Reiniciamos el servicio Apache 
 systemctl restart apache2
 
-# Copiamos el archivo info.php adjuntoal directorio html
+# Copiamos el archivo info.php adjunto al directorio html. No es necesario extraer el archivo de info gracias a la variable.
 cp $HTTPASSWD_DIR/iaw_practica08/info.php /var/www/html/info.php
 
 # Configuramos las opciones de instalación de phpMyAdmin #!!examinar
-#echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | debconf-set-selections
-#echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | debconf-set-selections
-#echo "phpmyadmin phpmyadmin/mysql/app-pass password $PHPMYADMIN_PASSWD" |debconf-set-selections
-#echo "phpmyadmin phpmyadmin/app-password-confirm password $PHPMYADMIN_PASSWD" | debconf-set-selections
+echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | debconf-set-selections
+echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | debconf-set-selections
+echo "phpmyadmin phpmyadmin/mysql/app-pass password $BLOWFISH" |debconf-set-selections
+echo "phpmyadmin phpmyadmin/app-password-confirm password $BLOWFISH" | debconf-set-selections
 
 # Instalamos phpMyAdmin #
 apt install phpmyadmin php-mbstring php-zip php-gd php-json php-curl -y
@@ -64,30 +64,35 @@ tar -xzvf latest.tar.gz
 rm latest.tar.gz
 
 ## Fase 2: Crear base de datos y un usuario##
-## Configuración MySQL ##
 
-# Editamos el archivo de configuración de MySQL, modificando la línea (Loop/cualquiera) Es necesario que acepte conexiones de cualquier origen para que cumpla con el enunciado de la práctica.
-#sed -i "s/127.0.0.1/0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf 
-
-# Actualizamos la contraseña de root de MySQL
-#mysql -u root  <<< "ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY '$DB_ROOT_PASSWD';"
-#mysql -u root -p$DB_ROOT_PASSWD <<< "FLUSH PRIVILEGES;"
-
-# Creamos usuario para la aplicación web y asignamos privilegios
-# mysql -u root -p$DB_ROOT_PASSWD <<< "CREATE USER 'lamp_user'@'%' IDENTIFIED BY '$DB_USU_PASSWD';"
-# mysql -u root -p$DB_ROOT_PASSWD <<< "GRANT ALL PRIVILEGES ON 'lamp_db'.* TO 'lamp_user'@'%';"
-# mysql -u root -p$DB_ROOT_PASSWD <<< "FLUSH PRIVILEGES;"
-
-# Introducimos la base de tados
-#mysql -u root -p$DB_ROOT_PASSWD < /home/ubuntu/iaw-practica-lamp/db/database.sql
-# Reiniciamos el servicio
-sudo /etc/init.d/mysql restart
+# Por seguridad, hacemos un borrado preventivo de la base de datos wordpress_db
+mysql -u root <<< "DROP DATABASE IF EXISTS $DB_NAME;"
+# Creamos la base de datos wordpress_db
+mysql -u root <<< "CREATE DATABASE $DB_NAME;"
+# Nos aseguramos que no existe el usuario automatizado
+mysql -u root <<< "DROP USER IF EXISTS $DB_USER@localhost;"
+# Creamos el usuario 'wordpress_user' para Wordpress
+mysql -u root <<< "CREATE USER $DB_USER@localhost IDENTIFIED BY '$DB_PASSWORD';"
+# Concedemos privilegios al usuario que acabamos de crear
+mysql -u root <<< "GRANT ALL PRIVILEGES ON $DB_NAME.* TO $DB_USER@localhost;"
+# Aplicamos cambios con un comando flush. Esto evita tener que reiniciar mysql.
+mysql -u root <<< "FLUSH PRIVILEGES;"
 
 ## Fase 3:Configurar el archivo wp-config.php##
-#Valores similares a los usados hasta ahora. Crear un archivo a mano para copiarlo. La linea de abajo es para usar el archivo por defecto como archivo de config.
-# mv wp-config-sample.php wp-config.php
+
+# En primer lugar, borramos el index.html de Apache para evitar conflictos con nuestro php.
+rm /var/www/html/index.html
+
+# Definimos variables dentro del archivo config de Wordpress.
+# Base de datos
+sed -i "s/database_name_here/$DB_NAME/" /var/www/html/wordpress/wp-config.php
+# Usuario
+sed -i "s/username_here/$DB_USER/" /var/www/html/wordpress/wp-config.php
+# Contraseña
+sed -i "s/password_here/$DB_PASSWORD/" /var/www/html/wordpress/wp-config.php
 
 ## Fase 4: Coloca los archivos##
+
 
 ## Fase 5: Ejecuta la instalación##
 

@@ -34,33 +34,10 @@ Las fases que tendrá que resolver son las siguientes:
 
 **Archivos en el repositorio**
 ------------
-1. README.md-Documentación
+1. README.md  Documentación
+2. wordpress_lamp.sh  Script para instalar Wordpress sobre una pila LAMP
 
 **Fase 0**
-------------
-
-
-
-**Archivos de configuración alterados durante el script**
-------------
-
-
-**Errores**
-------------
-
-**Fase 1**
-------------
-
-
-
-**Archivos de configuración alterados durante el script**
-------------
-
-
-**Errores**
-------------
-
-**Fase 2**
 ------------
 
 
