@@ -39,7 +39,7 @@ apt install php libapache2-mod-php php-mysql -y
 # Reiniciamos el servicio Apache 
 systemctl restart apache2
 
-# Copiamos el archivo info.php adjunto al directorio html.
+# Copiamos el archivo info.php adjunto al directorio html. No es necesario extraer de la carpeta.
 cp $HTTPASSWD_DIR/iaw_practica08/info.php /var/www/html/info.php
 
 # Configuramos las opciones de instalación de phpMyAdmin #!!examinar
@@ -106,7 +106,7 @@ sed -i "/WP_SITEURL/a define( 'WP_HOME', 'http://$IP_PUBLICA' );" /var/www/html/
 # Editamos el archivo /var/www/html/index.php para que la ruta sea correcta
 sed -i "s#/wp-blog-header.php#/wordpress/wp-blog-header.php#" /var/www/html/index.php
 
-# Copiamos el archivo htaccess incluido en nuestro repositorio git.
+# Copiamos el archivo htaccess incluido en nuestro repositorio git. No es necesario extraer de la carpeta.
 cp $HTTPASSWD_DIR/iaw_practica08/htaccess /var/www/html/.htaccess
 
 # Configuración de las security keys. Estas claves añaden elementos aleatorios a la contraseña, lo cual ralentiza una entrada 'forzada'
