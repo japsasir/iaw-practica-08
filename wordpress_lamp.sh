@@ -39,7 +39,7 @@ apt install php libapache2-mod-php php-mysql -y
 # Reiniciamos el servicio Apache 
 systemctl restart apache2
 
-# Copiamos el archivo info.php adjunto al directorio html. No es necesario extraer el archivo de info gracias a la variable.
+# Copiamos el archivo info.php adjunto al directorio html.
 cp $HTTPASSWD_DIR/iaw_practica08/info.php /var/www/html/info.php
 
 # Configuramos las opciones de instalación de phpMyAdmin #!!examinar
@@ -107,7 +107,7 @@ sed -i "/WP_SITEURL/a define( 'WP_HOME', 'http://$IP_PUBLICA' );" /var/www/html/
 sed -i "s#/wp-blog-header.php#/wordpress/wp-blog-header.php#" /var/www/html/index.php
 
 # Copiamos el archivo htaccess incluido en nuestro repositorio git.
-cp $HTTPASSWD_DIR/htaccess /var/www/html/.htaccess
+cp $HTTPASSWD_DIR/iaw_practica08/htaccess /var/www/html/.htaccess
 
 # Configuración de las security keys. Estas claves añaden elementos aleatorios a la contraseña, lo cual ralentiza una entrada 'forzada'
 # Se emplean 4 claves. Los cuatro campos 'salt' tienen un valor por defecto otorgado por Wordpress, pero lo podemos cambiar.
