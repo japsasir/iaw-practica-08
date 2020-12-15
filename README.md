@@ -179,14 +179,17 @@ Reiniciamos el servicio apache2. Tras esto, deberíamos poder acceder a la pági
 La variable IP_PUBLICA se usará para definir
 `WP_SITEURL  WP_HOME`
 ![](https://i.imgur.com/EaSNxVa.png)
+
 Credenciales de base de datos para la instalación de Wordpress
 ![](https://i.imgur.com/45Yvpez.png)
 
 Los archivos subidos a la biblioteca de medios se almacenarán en 
 `/var/www/html/wordpress/wp-content/uploads`
 ![](https://i.imgur.com/nHd53wN.png)
+
 *Imagen de ejemplo.*
 ![](https://i.imgur.com/DSo3VBD.png)
+
 *Archivos creados. Diferentes resoluciones para diferentes formatos.*
 
 **Referencias**
