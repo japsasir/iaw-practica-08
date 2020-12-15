@@ -164,7 +164,7 @@ sed -i "/@-/a $SECURITY_KEYS" /var/www/html/wordpress/wp-config.php
 a2enmod rewrite
 ```
 
-Este módulo permite crear direcciones URL alternativas a las dinámicas generadas por la programación de nuestro sitio web, de tal modo que sean más legibles y fáciles de recordar. E
+Este módulo permite crear direcciones URL alternativas a las dinámicas generadas por la programación de nuestro sitio web, de tal modo que sean más legibles y fáciles de recordar.
 
 - Antes de reiniciar el servidor web, le damos permisos para /var/www/html:
 
@@ -203,6 +203,7 @@ https://www.digitalocean.com/community/tutorials/building-for-production-web-app
 https://codex.wordpress.org/es:Instalando_Wordpress
 - Usando Wordpress
 https://codex.wordpress.org/Getting_Started_with_WordPress
+
 **Agradecimientos**
 ------------
 - Markdown editor.
