@@ -5,7 +5,8 @@
 ###-------------------------------------------------------###
 
 ## Variables
-
+#IP pública. Hay que adaptarla con cada cambio!
+IP_PUBLICA=
 # Contraseña aleatoria para el parámetro blowfish_secret
 BLOWFISH=`tr -dc A-Za-z0-9 < /dev/urandom | head -c 64`
 # Directorio de usuario
@@ -51,6 +52,7 @@ echo "phpmyadmin phpmyadmin/app-password-confirm password $BLOWFISH" | debconf-s
 apt install phpmyadmin php-mbstring php-zip php-gd php-json php-curl -y
 
 # ------------------------------------------------------------------------------ Instalación y configuración de Wordpress------------------------------------------------------------------------------ 
+# Ideas de instalación: https://codex.wordpress.org/es:Instalando_Wordpress
 ## Fase 1: Descarga y extracción ##
 # Directorio raíz de nuestro apache
 cd /var/www/html
@@ -92,10 +94,52 @@ sed -i "s/username_here/$DB_USER/" /var/www/html/wordpress/wp-config.php
 sed -i "s/password_here/$DB_PASSWORD/" /var/www/html/wordpress/wp-config.php
 
 ## Fase 4: Coloca los archivos##
+# Vamos a colocar nuestros archivos en directorios diferentes al raíz. Vamos a ubicar todo en la carpeta que empleamos en prácticas anteriores.
 
+# Copiamos el archivo /var/www/html/wordpress/index.php a /var/www/html/index.php 
+cp /var/www/html/wordpress/index.php  /var/www/html/index.php
 
-## Fase 5: Ejecuta la instalación##
+# Cambiamos la url de WordPress con WP_SITEURL y WP_HOME. El archivo de configuración modificado es el de la fase anterior.
+sed -i "/DB_COLLATE/a define( 'WP_SITEURL', 'http://$IP_PUBLICA/wordpress' );" /var/www/html/wordpress/wp-config.php
+sed -i "/WP_SITEURL/a define( 'WP_HOME', 'http://$IP_PUBLICA' );" /var/www/html/wordpress/wp-config.php
 
+# Editamos el archivo /var/www/html/index.php para que la ruta sea correcta
+sed -i "s#/wp-blog-header.php#/wordpress/wp-blog-header.php#" /var/www/html/index.php
 
+# Copiamos el archivo htaccess incluido en nuestro repositorio git.
+cp $HTTPASSWD_DIR/htaccess /var/www/html/.htaccess
 
-#https://codex.wordpress.org/es:Instalando_Wordpress
+# Configuración de las security keys. Estas claves añaden elementos aleatorios a la contraseña, lo cual ralentiza una entrada 'forzada'
+# Se emplean 4 claves. Los cuatro campos 'salt' tienen un valor por defecto otorgado por Wordpress, pero lo podemos cambiar.
+
+# Borramos el bloque que nos viene por defecto en el archivo de configuración 
+sed -i "/AUTH_KEY/d" /var/www/html/wordpress/wp-config.php
+sed -i "/SECURE_AUTH_KEY/d" /var/www/html/wordpress/wp-config.php
+sed -i "/LOGGED_IN_KEY/d" /var/www/html/wordpress/wp-config.php
+sed -i "/NONCE_KEY/d" /var/www/html/wordpress/wp-config.php
+sed -i "/AUTH_SALT/d" /var/www/html/wordpress/wp-config.php
+sed -i "/SECURE_AUTH_SALT/d" /var/www/html/wordpress/wp-config.php
+sed -i "/LOGGED_IN_SALT/d" /var/www/html/wordpress/wp-config.php
+sed -i "/NONCE_SALT/d" /var/www/html/wordpress/wp-config.php
+
+# Definimos la variable SECURITY_KEYS haciendo una llamada a la API de Wordpress. 
+SECURITY_KEYS=$(curl https://api.wordpress.org/secret-key/1.1/salt/)
+
+# Reemplazamos "/" por "_" para que no nos falle el comando sed. Recordemos que emplear '/' en configuraciones suele llevarnos a error.
+SECURITY_KEYS=$(echo $SECURITY_KEYS | tr / _)
+
+# Creamos un nuevo bloque de SECURITY KEYS
+sed -i "/@-/a $SECURITY_KEYS" /var/www/html/wordpress/wp-config.php
+
+# Habilitamos el módulo rewrite (reescritura de las url)
+a2enmod rewrite
+
+# Le damos permisos al servidor web para /var/www/html como en prácticas anteriores
+chown -R www-data:www-data /var/www/html
+
+# Reiniciamos Apache
+systemctl restart apache2
+
+# Opcionalmente, podemos borrar la carpeta de despliegue del script al finalizar. No se hará en este caso por estar en pruebas.
+# cd $HTTPASSWD_DIR
+# rm -rf iaw_practica08

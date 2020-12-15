@@ -57,3 +57,5 @@ Las fases que tendrá que resolver son las siguientes:
 https://josejuansanchez.org/iaw/practica-08/
 - Implantación Wordpress
 https://www.digitalocean.com/community/tutorials/building-for-production-web-applications-deploying
+- Ruta '5 minutos'
+https://codex.wordpress.org/es:Instalando_Wordpress
