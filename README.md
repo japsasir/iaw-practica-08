@@ -201,7 +201,8 @@ https://josejuansanchez.org/iaw/practica-08/
 - Implantación Wordpress
 https://www.digitalocean.com/community/tutorials/building-for-production-web-applications-deploying
 https://codex.wordpress.org/es:Instalando_Wordpress
-
+- Usando Wordpress
+https://codex.wordpress.org/Getting_Started_with_WordPress
 **Agradecimientos**
 ------------
 - Markdown editor.
