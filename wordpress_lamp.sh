@@ -67,8 +67,7 @@ rm latest.tar.gz
 ## Configuración MySQL ##
 
 # Editamos el archivo de configuración de MySQL, modificando la línea (Loop/cualquiera) Es necesario que acepte conexiones de cualquier origen para que cumpla con el enunciado de la práctica.
-sed -i "s/127.0.0.1/0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf 
-#git clone https://github.com/josejuansanchez/iaw-practica-lamp
+#sed -i "s/127.0.0.1/0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf 
 
 # Actualizamos la contraseña de root de MySQL
 #mysql -u root  <<< "ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY '$DB_ROOT_PASSWD';"

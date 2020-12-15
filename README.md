@@ -36,8 +36,9 @@ Las fases que tendrá que resolver son las siguientes:
 ------------
 1. README.md-Documentación
 
-**Pasos seguidos**
+**Fase 0**
 ------------
+
 
 
 **Archivos de configuración alterados durante el script**
@@ -46,6 +47,31 @@ Las fases que tendrá que resolver son las siguientes:
 
 **Errores**
 ------------
+
+**Fase 1**
+------------
+
+
+
+**Archivos de configuración alterados durante el script**
+------------
+
+
+**Errores**
+------------
+
+**Fase 2**
+------------
+
+
+
+**Archivos de configuración alterados durante el script**
+------------
+
+
+**Errores**
+------------
+
 
 
 **Referencias**
