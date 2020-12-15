@@ -5,7 +5,7 @@
 ###-------------------------------------------------------###
 
 ## Variables
-#IP pública. Hay que adaptarla con cada cambio!
+#!! IP pública/posteriormente balanceador. ¡Hay que adaptarla con cada cambio!
 IP_PUBLICA=
 # Contraseña aleatoria para el parámetro blowfish_secret
 BLOWFISH=`tr -dc A-Za-z0-9 < /dev/urandom | head -c 64`
@@ -42,13 +42,13 @@ systemctl restart apache2
 # Copiamos el archivo info.php adjunto al directorio html. No es necesario extraer de la carpeta.
 cp $HTTPASSWD_DIR/iaw_practica08/info.php /var/www/html/info.php
 
-# Configuramos las opciones de instalación de phpMyAdmin #!!examinar
+# Configuramos las opciones de instalación de phpMyAdmin
 echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | debconf-set-selections
 echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | debconf-set-selections
 echo "phpmyadmin phpmyadmin/mysql/app-pass password $BLOWFISH" |debconf-set-selections
 echo "phpmyadmin phpmyadmin/app-password-confirm password $BLOWFISH" | debconf-set-selections
 
-# Instalamos phpMyAdmin #
+# Instalamos phpMyAdmin 
 apt install phpmyadmin php-mbstring php-zip php-gd php-json php-curl -y
 
 # ------------------------------------------------------------------------------ Instalación y configuración de Wordpress------------------------------------------------------------------------------ 
@@ -106,7 +106,7 @@ sed -i "/WP_SITEURL/a define( 'WP_HOME', 'http://$IP_PUBLICA' );" /var/www/html/
 # Editamos el archivo /var/www/html/index.php para que la ruta sea correcta
 sed -i "s#/wp-blog-header.php#/wordpress/wp-blog-header.php#" /var/www/html/index.php
 
-# Copiamos el archivo htaccess incluido en nuestro repositorio git. No es necesario extraer de la carpeta.
+# Copiamos el archivo htaccess incluido en nuestro repositorio git. No es necesario extraer de la carpeta. Hará de balanceador de carga en siguientes fases.
 cp $HTTPASSWD_DIR/iaw_practica08/htaccess /var/www/html/.htaccess
 
 # Configuración de las security keys. Estas claves añaden elementos aleatorios a la contraseña, lo cual ralentiza una entrada 'forzada'
