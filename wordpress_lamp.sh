@@ -6,7 +6,7 @@
 
 ## Variables
 #!! IP pública/posteriormente balanceador. ¡Hay que adaptarla con cada cambio!
-IP_PUBLICA=
+IP_PUBLICA=52.23.180.227
 # Contraseña aleatoria para el parámetro blowfish_secret
 BLOWFISH=`tr -dc A-Za-z0-9 < /dev/urandom | head -c 64`
 # Directorio de usuario
@@ -40,7 +40,7 @@ apt install php libapache2-mod-php php-mysql -y
 systemctl restart apache2
 
 # Copiamos el archivo info.php adjunto al directorio html. No es necesario extraer de la carpeta.
-cp $HTTPASSWD_DIR/iaw_practica08/info.php /var/www/html/info.php
+cp $HTTPASSWD_DIR iaw-practica-08/info.php /var/www/html/info.php
 
 # Configuramos las opciones de instalación de phpMyAdmin
 echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | debconf-set-selections
@@ -107,7 +107,7 @@ sed -i "/WP_SITEURL/a define( 'WP_HOME', 'http://$IP_PUBLICA' );" /var/www/html/
 sed -i "s#/wp-blog-header.php#/wordpress/wp-blog-header.php#" /var/www/html/index.php
 
 # Copiamos el archivo htaccess incluido en nuestro repositorio git. No es necesario extraer de la carpeta. Hará de balanceador de carga en siguientes fases.
-cp $HTTPASSWD_DIR/iaw_practica08/htaccess /var/www/html/.htaccess
+cp $HTTPASSWD_DIR iaw-practica-08/htaccess /var/www/html/.htaccess
 
 # Configuración de las security keys. Estas claves añaden elementos aleatorios a la contraseña, lo cual ralentiza una entrada 'forzada'
 # Se emplean 4 claves. Los cuatro campos 'salt' tienen un valor por defecto otorgado por Wordpress, pero lo podemos cambiar.
