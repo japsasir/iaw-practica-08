@@ -85,7 +85,7 @@ mysql -u root <<< "FLUSH PRIVILEGES;"
 # En primer lugar, borramos el index.html de Apache para evitar conflictos con nuestro php.
 rm /var/www/html/index.html
 # Creamos wp-config.php a partir de la plantilla
-mv /var/wwww/html/wordpress/wp-config-sample.php /var/wwww/html/wordpress/wp-config.php
+mv /var/www/html/wordpress/wp-config-sample.php /var/www/html/wordpress/wp-config.php
 # Definimos variables dentro del archivo config de Wordpress.
 # Base de datos
 sed -i "s/database_name_here/$DB_NAME/" /var/www/html/wordpress/wp-config.php
